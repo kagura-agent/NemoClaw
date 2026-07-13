@@ -132,12 +132,12 @@ describe("Ollama runtime context helpers", () => {
       },
       runCaptureImpl: () =>
         JSON.stringify({
-          models: [{ name: "qwen3.5:9b", context_length: 32_768, processor: "100% GPU" }],
+          models: [{ name: "qwen3.5:9b", context_length: 131_072, processor: "100% GPU" }],
         }),
     };
 
     applyOllamaRuntimeContextWindow("qwen3.5:9b", getOllamaHost, options);
-    expect(env.NEMOCLAW_CONTEXT_WINDOW).toBe("32768");
+    expect(env.NEMOCLAW_CONTEXT_WINDOW).toBe("131072");
     expect(messages.some((m) => m.includes("Raising Ollama runtime context window"))).toBe(false);
   });
 
@@ -158,9 +158,9 @@ describe("Ollama runtime context helpers", () => {
     applyOllamaRuntimeContextWindow("qwen3.6:35b", getOllamaHost, options);
     expect(env.NEMOCLAW_CONTEXT_WINDOW).toBe("262144");
 
-    models = [{ name: "qwen2.5:7b", context_length: 32768 }];
+    models = [{ name: "qwen2.5:7b", context_length: 131072 }];
     applyOllamaRuntimeContextWindow("qwen2.5:7b", getOllamaHost, options);
-    expect(env.NEMOCLAW_CONTEXT_WINDOW).toBe("32768");
+    expect(env.NEMOCLAW_CONTEXT_WINDOW).toBe("131072");
 
     models = [];
     applyOllamaRuntimeContextWindow("qwen2.5:7b", getOllamaHost, options);
@@ -168,7 +168,7 @@ describe("Ollama runtime context helpers", () => {
 
     resetOllamaRuntimeContextWindowAutoState();
     env.NEMOCLAW_CONTEXT_WINDOW = "262144";
-    models = [{ name: "qwen2.5:7b", context_length: 32768 }];
+    models = [{ name: "qwen2.5:7b", context_length: 131072 }];
     applyOllamaRuntimeContextWindow("qwen2.5:7b", getOllamaHost, options);
     expect(env.NEMOCLAW_CONTEXT_WINDOW).toBe("262144");
     expect(messages.at(-1)).toContain("Keeping configured context window");

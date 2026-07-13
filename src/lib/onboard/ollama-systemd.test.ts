@@ -35,12 +35,12 @@ describe("mergeOllamaLoopbackSystemdOverride", () => {
     const existing = [
       "[Service]",
       'Environment="OLLAMA_HOST=0.0.0.0:11434"',
-      'Environment="OLLAMA_CONTEXT_LENGTH=65536"',
+      'Environment="OLLAMA_CONTEXT_LENGTH=131072"',
       "",
     ].join("\n");
     const out = mergeOllamaLoopbackSystemdOverride(existing);
     expect(out).toContain(`Environment="OLLAMA_HOST=127.0.0.1:${OLLAMA_PORT}"`);
-    expect(out).toContain('Environment="OLLAMA_CONTEXT_LENGTH=65536"');
+    expect(out).toContain('Environment="OLLAMA_CONTEXT_LENGTH=131072"');
     expect(out).not.toContain(
       `Environment="OLLAMA_CONTEXT_LENGTH=${MIN_AUTODETECTED_OLLAMA_CONTEXT_WINDOW}"`,
     );

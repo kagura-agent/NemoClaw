@@ -39,12 +39,12 @@ export interface ApplyOllamaRuntimeContextWindowOptions {
 export const MAX_AUTODETECTED_OLLAMA_CONTEXT_WINDOW = 4_194_304;
 
 // Floor for auto-adopted runtime context windows. Ollama's stock daemon serves
-// `num_ctx=4096` until OLLAMA_CONTEXT_LENGTH is set host-side, which cannot fit
-// an agent base prompt + tool catalogue (~7.4 k tokens) plus a single user turn.
-// When the probed runtime length is below this floor and the user has not set
-// an explicit override, NemoClaw raises NEMOCLAW_CONTEXT_WINDOW to the floor so
-// downstream prompt budgeting reflects a workable window.
-export const MIN_AUTODETECTED_OLLAMA_CONTEXT_WINDOW = 16_384;
+// `num_ctx=4096` until OLLAMA_CONTEXT_LENGTH is set host-side. The floor must
+// satisfy the most demanding bundled agent — Hermes Agent requires a minimum of
+// 64 000 tokens. When the probed runtime length is below this floor and the
+// user has not set an explicit override, NemoClaw raises NEMOCLAW_CONTEXT_WINDOW
+// to the floor so downstream prompt budgeting reflects a workable window.
+export const MIN_AUTODETECTED_OLLAMA_CONTEXT_WINDOW = 65_536;
 
 function normalizeOllamaModelName(value: unknown): string {
   return String(value || "").trim();
